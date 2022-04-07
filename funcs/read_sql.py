@@ -6,6 +6,7 @@ from sqlalchemy import create_engine
 def f_read_sql(query,driver,server,database,username,password):
     conn = pyodbc.connect("DRIVER="+driver+";SERVER="+server+";DATABASE="+database+";UID="+username+";PWD="+password)
     df = pd.read_sql_query(query, conn)
+
     conn.close()
     return df
 

@@ -1,4 +1,4 @@
-select 
+select
 f.CollectionName as SOURCE, 
 n.CId as CID	,
 n.LAC	,
@@ -35,16 +35,15 @@ p.latitude	  BTS3LatDiff,
 '' TestIdLP ,
 '' PosIdLP	,
 '' NetworkIdLP ,
-r.ErrorCode	, 
-		Case When ResultsCapacityTestParameters.Direction='PUT' then 'uplink' else 'downlink' end as Direction,
-		r.ThroughputPut as ULLThrpt,		
-		ResultsCapacityTestParameters.URICount  ,
-		Case When r.ErrorCode = 0 Then 'Success' Else 'Failed' End as Status 
- 
+w.ErrorCode	, 
+Case When t.Direction='PUT' then 'uplink' else 'downlink' end as Direction,
+w.ThroughputPut as ULLThrpt,	
+t.URICount  ,
+Case When w.ErrorCode = 0 Then 'Success' Else 'Failed' End as Status 
 
-from    NetworkInfo n    
-join  "Position" p on n.MsgTime =p.MsgTime and n.FileId =p.FileId
-join  FileList f on n.FileId =f.FileId 
-join  ResultsCapacityTest r on p.SessionId=r.SessionId and 		r.MsgTime=p.MsgTime	
-join ResultsCapacityTestParameters  ResultsCapacityTestParameters on r.TestId=ResultsCapacityTestParameters.TestId 
-where ResultsCapacityTestParameters.Direction ='PUT';
+from    ResultsCapacityTest w  
+left  join  NetworkInfo n    on  w.NetworkId=n.NetworkId 
+left  join   "Position" p  on w.PosId =p.PosId 
+left  join   FileList f on n.FileId =f.FileId 
+left  join  ResultsCapacityTestParameters  t on w.TestId=t.TestId 
+where t.Direction ='PUT';

@@ -9,7 +9,7 @@ if __name__ == '__main__':
     # Connection to the database
     driver = "{SQL Server}"
     server = "10.31.0.23,1433"
-    database = "ZONA11_JAKARTA_TIMUR_DT"
+    database = "ZONA11_JAKARTA_PUSAT_DT"
     username = "ms_reporting"
     password = "Kominfo@2021"
 
@@ -19,8 +19,7 @@ if __name__ == '__main__':
     FTP_DL_all = None
     HTTP_Browser_all = None
     RSCP_ECLO_all = None
-    RSRP_all = None
-    RSRQ_all = None
+    RSRP_RSRQ_all = None
     RxLvl_RxQual_all = None
 
     # Variable bad none
@@ -29,8 +28,7 @@ if __name__ == '__main__':
     FTP_DL_bad = None
     HTTP_Browser_bad = None
     RSCP_ECLO_bad = None
-    RSRP_bad = None
-    RSRQ_bad = None
+    RSRP_RSRQ_bad = None
     RxLvl_RxQual_bad = None
 
     # Read SQL files
@@ -43,18 +41,17 @@ if __name__ == '__main__':
 
         variable_name_all = head_tail[1][:-4]+"_all"
         globals()[variable_name_all] = f_read_sql(query, driver, server, database, username, password)
+        print(variable_name_all)
+        print(globals()[variable_name_all].dtypes)
 
     # If dataframe is empty pass, else parsing
-    if RSRP_all.empty:
+    if RSRP_RSRQ_all.empty:
         pass
     else:
-        RSRP_all = f_parsing(RSRP_all, 'RSRP', 'Kurang', -110, "<-110 dbm", "yes")
-        RSRP_bad = f_parsing(RSRP_all, 'RSRP', 'Kurang', -110, "<-110 dbm", "no")
-    if RSRQ_all.empty:
-        pass
-    else:
-        RSRQ_all = f_parsing(RSRQ_all, 'RSRQ', 'Kurang', -16, "<-16 dbm", "yes")
-        RSRQ_bad = f_parsing(RSRQ_all, 'RSRQ', 'Kurang', -16, "<-16 dbm", "no")
+        RSRP_all = f_parsing(RSRP_RSRQ_all, 'RSRP', 'Kurang', -110, "<-110 dbm", "yes")
+        RSRQ_all = f_parsing(RSRP_RSRQ_all, 'RSRQ', 'Kurang', -16, "<-16 dbm", "yes")
+        RSRP_bad = f_parsing(RSRP_RSRQ_all, 'RSRP', 'Kurang', -110, "<-110 dbm", "no")
+        RSRQ_bad = f_parsing(RSRP_RSRQ_all, 'RSRQ', 'Kurang', -16, "<-16 dbm", "no")
     if RSCP_ECLO_all.empty:
         pass
     else:
@@ -517,116 +514,116 @@ if __name__ == '__main__':
     fr_tri_all = pd.ExcelWriter('data/fr/parsed/all/FR_3.xlsx', engine='xlsxwriter')
 
     # Write each dataframe bad to a different worksheet.
-    Capacity_DL_bad_telkomsel.to_excel(fr_telkomsel_bad, sheet_name='Capacity_DL')
-    Capacity_UL_bad_telkomsel.to_excel(fr_telkomsel_bad, sheet_name='Capacity_UL')
-    FTP_DL_bad_telkomsel.to_excel(fr_telkomsel_bad, sheet_name='FTP_DL')
-    HTTP_Browser_bad_telkomsel.to_excel(fr_telkomsel_bad, sheet_name='HTTP_Browser')
-    RSCP_bad_telkomsel.to_excel(fr_telkomsel_bad, sheet_name='RSCP')
-    ECLO_bad_telkomsel.to_excel(fr_telkomsel_bad, sheet_name='ECLO')
     RSRP_bad_telkomsel.to_excel(fr_telkomsel_bad, sheet_name='RSRP')
     RSRQ_bad_telkomsel.to_excel(fr_telkomsel_bad, sheet_name='RSRQ')
+    RSCP_bad_telkomsel.to_excel(fr_telkomsel_bad, sheet_name='RSCP')
+    ECLO_bad_telkomsel.to_excel(fr_telkomsel_bad, sheet_name='ECLO')
     RxLvl_bad_telkomsel.to_excel(fr_telkomsel_bad, sheet_name='RxLvl')
     RxQual_bad_telkomsel.to_excel(fr_telkomsel_bad, sheet_name='RxQual')
+    FTP_DL_bad_telkomsel.to_excel(fr_telkomsel_bad, sheet_name='FTP_DL')
+    Capacity_DL_bad_telkomsel.to_excel(fr_telkomsel_bad, sheet_name='Capacity_DL')
+    Capacity_UL_bad_telkomsel.to_excel(fr_telkomsel_bad, sheet_name='Capacity_UL')
+    HTTP_Browser_bad_telkomsel.to_excel(fr_telkomsel_bad, sheet_name='HTTP_Browser')
 
-    Capacity_DL_bad_xl.to_excel(fr_xl_bad, sheet_name='Capacity_DL')
-    Capacity_UL_bad_xl.to_excel(fr_xl_bad, sheet_name='Capacity_UL')
-    FTP_DL_bad_xl.to_excel(fr_xl_bad, sheet_name='FTP_DL')
-    HTTP_Browser_bad_xl.to_excel(fr_xl_bad, sheet_name='HTTP_Browser')
-    RSCP_bad_xl.to_excel(fr_xl_bad, sheet_name='RSCP')
-    ECLO_bad_xl.to_excel(fr_xl_bad, sheet_name='ECLO')
     RSRP_bad_xl.to_excel(fr_xl_bad, sheet_name='RSRP')
     RSRQ_bad_xl.to_excel(fr_xl_bad, sheet_name='RSRQ')
+    RSCP_bad_xl.to_excel(fr_xl_bad, sheet_name='RSCP')
+    ECLO_bad_xl.to_excel(fr_xl_bad, sheet_name='ECLO')
     RxLvl_bad_xl.to_excel(fr_xl_bad, sheet_name='RxLvl')
     RxQual_bad_xl.to_excel(fr_xl_bad, sheet_name='RxQual')
+    FTP_DL_bad_xl.to_excel(fr_xl_bad, sheet_name='FTP_DL')
+    Capacity_DL_bad_xl.to_excel(fr_xl_bad, sheet_name='Capacity_DL')
+    Capacity_UL_bad_xl.to_excel(fr_xl_bad, sheet_name='Capacity_UL')
+    HTTP_Browser_bad_xl.to_excel(fr_xl_bad, sheet_name='HTTP_Browser')
 
-    Capacity_DL_bad_smartfren.to_excel(fr_smartfren_bad, sheet_name='Capacity_DL')
-    Capacity_UL_bad_smartfren.to_excel(fr_smartfren_bad, sheet_name='Capacity_UL')
-    FTP_DL_bad_smartfren.to_excel(fr_smartfren_bad, sheet_name='FTP_DL')
-    HTTP_Browser_bad_smartfren.to_excel(fr_smartfren_bad, sheet_name='HTTP_Browser')
-    RSCP_bad_smartfren.to_excel(fr_smartfren_bad, sheet_name='RSCP')
-    ECLO_bad_smartfren.to_excel(fr_smartfren_bad, sheet_name='ECLO')
     RSRP_bad_smartfren.to_excel(fr_smartfren_bad, sheet_name='RSRP')
     RSRQ_bad_smartfren.to_excel(fr_smartfren_bad, sheet_name='RSRQ')
+    RSCP_bad_smartfren.to_excel(fr_smartfren_bad, sheet_name='RSCP')
+    ECLO_bad_smartfren.to_excel(fr_smartfren_bad, sheet_name='ECLO')
     RxLvl_bad_smartfren.to_excel(fr_smartfren_bad, sheet_name='RxLvl')
     RxQual_bad_smartfren.to_excel(fr_smartfren_bad, sheet_name='RxQual')
+    FTP_DL_bad_smartfren.to_excel(fr_smartfren_bad, sheet_name='FTP_DL')
+    Capacity_DL_bad_smartfren.to_excel(fr_smartfren_bad, sheet_name='Capacity_DL')
+    Capacity_UL_bad_smartfren.to_excel(fr_smartfren_bad, sheet_name='Capacity_UL')
+    HTTP_Browser_bad_smartfren.to_excel(fr_smartfren_bad, sheet_name='HTTP_Browser')
 
-    Capacity_DL_bad_indosat.to_excel(fr_indosat_bad, sheet_name='Capacity_DL')
-    Capacity_UL_bad_indosat.to_excel(fr_indosat_bad, sheet_name='Capacity_UL')
-    FTP_DL_bad_indosat.to_excel(fr_indosat_bad, sheet_name='FTP_DL')
-    HTTP_Browser_bad_indosat.to_excel(fr_indosat_bad, sheet_name='HTTP_Browser')
-    RSCP_bad_indosat.to_excel(fr_indosat_bad, sheet_name='RSCP')
-    ECLO_bad_indosat.to_excel(fr_indosat_bad, sheet_name='ECLO')
     RSRP_bad_indosat.to_excel(fr_indosat_bad, sheet_name='RSRP')
     RSRQ_bad_indosat.to_excel(fr_indosat_bad, sheet_name='RSRQ')
+    RSCP_bad_indosat.to_excel(fr_indosat_bad, sheet_name='RSCP')
+    ECLO_bad_indosat.to_excel(fr_indosat_bad, sheet_name='ECLO')
     RxLvl_bad_indosat.to_excel(fr_indosat_bad, sheet_name='RxLvl')
     RxQual_bad_indosat.to_excel(fr_indosat_bad, sheet_name='RxQual')
+    FTP_DL_bad_indosat.to_excel(fr_indosat_bad, sheet_name='FTP_DL')
+    Capacity_DL_bad_indosat.to_excel(fr_indosat_bad, sheet_name='Capacity_DL')
+    Capacity_UL_bad_indosat.to_excel(fr_indosat_bad, sheet_name='Capacity_UL')
+    HTTP_Browser_bad_indosat.to_excel(fr_indosat_bad, sheet_name='HTTP_Browser')
 
-    Capacity_DL_bad_tri.to_excel(fr_tri_bad, sheet_name='Capacity_DL')
-    Capacity_UL_bad_tri.to_excel(fr_tri_bad, sheet_name='Capacity_UL')
-    FTP_DL_bad_tri.to_excel(fr_tri_bad, sheet_name='FTP_DL')
-    HTTP_Browser_bad_tri.to_excel(fr_tri_bad, sheet_name='HTTP_Browser')
-    RSCP_bad_tri.to_excel(fr_tri_bad, sheet_name='RSCP')
-    ECLO_bad_tri.to_excel(fr_tri_bad, sheet_name='ECLO')
     RSRP_bad_tri.to_excel(fr_tri_bad, sheet_name='RSRP')
     RSRQ_bad_tri.to_excel(fr_tri_bad, sheet_name='RSRQ')
+    RSCP_bad_tri.to_excel(fr_tri_bad, sheet_name='RSCP')
+    ECLO_bad_tri.to_excel(fr_tri_bad, sheet_name='ECLO')
     RxLvl_bad_tri.to_excel(fr_tri_bad, sheet_name='RxLvl')
     RxQual_bad_tri.to_excel(fr_tri_bad, sheet_name='RxQual')
+    FTP_DL_bad_tri.to_excel(fr_tri_bad, sheet_name='FTP_DL')
+    Capacity_DL_bad_tri.to_excel(fr_tri_bad, sheet_name='Capacity_DL')
+    Capacity_UL_bad_tri.to_excel(fr_tri_bad, sheet_name='Capacity_UL')
+    HTTP_Browser_bad_tri.to_excel(fr_tri_bad, sheet_name='HTTP_Browser')
 
     # Write each dataframe all to a different worksheet.
-    Capacity_DL_all_telkomsel.to_excel(fr_telkomsel_all, sheet_name='Capacity_DL')
-    Capacity_UL_all_telkomsel.to_excel(fr_telkomsel_all, sheet_name='Capacity_UL')
-    FTP_DL_all_telkomsel.to_excel(fr_telkomsel_all, sheet_name='FTP_DL')
-    HTTP_Browser_all_telkomsel.to_excel(fr_telkomsel_all, sheet_name='HTTP_Browser')
-    RSCP_all_telkomsel.to_excel(fr_telkomsel_all, sheet_name='RSCP')
-    ECLO_all_telkomsel.to_excel(fr_telkomsel_all, sheet_name='ECLO')
     RSRP_all_telkomsel.to_excel(fr_telkomsel_all, sheet_name='RSRP')
     RSRQ_all_telkomsel.to_excel(fr_telkomsel_all, sheet_name='RSRQ')
+    RSCP_all_telkomsel.to_excel(fr_telkomsel_all, sheet_name='RSCP')
+    ECLO_all_telkomsel.to_excel(fr_telkomsel_all, sheet_name='ECLO')
     RxLvl_all_telkomsel.to_excel(fr_telkomsel_all, sheet_name='RxLvl')
     RxQual_all_telkomsel.to_excel(fr_telkomsel_all, sheet_name='RxQual')
+    FTP_DL_all_telkomsel.to_excel(fr_telkomsel_all, sheet_name='FTP_DL')
+    Capacity_DL_all_telkomsel.to_excel(fr_telkomsel_all, sheet_name='Capacity_DL')
+    Capacity_UL_all_telkomsel.to_excel(fr_telkomsel_all, sheet_name='Capacity_UL')
+    HTTP_Browser_all_telkomsel.to_excel(fr_telkomsel_all, sheet_name='HTTP_Browser')
 
-    Capacity_DL_all_xl.to_excel(fr_xl_all, sheet_name='Capacity_DL')
-    Capacity_UL_all_xl.to_excel(fr_xl_all, sheet_name='Capacity_UL')
-    FTP_DL_all_xl.to_excel(fr_xl_all, sheet_name='FTP_DL')
-    HTTP_Browser_all_xl.to_excel(fr_xl_all, sheet_name='HTTP_Browser')
-    RSCP_all_xl.to_excel(fr_xl_all, sheet_name='RSCP')
-    ECLO_all_xl.to_excel(fr_xl_all, sheet_name='ECLO')
     RSRP_all_xl.to_excel(fr_xl_all, sheet_name='RSRP')
     RSRQ_all_xl.to_excel(fr_xl_all, sheet_name='RSRQ')
+    RSCP_all_xl.to_excel(fr_xl_all, sheet_name='RSCP')
+    ECLO_all_xl.to_excel(fr_xl_all, sheet_name='ECLO')
     RxLvl_all_xl.to_excel(fr_xl_all, sheet_name='RxLvl')
     RxQual_all_xl.to_excel(fr_xl_all, sheet_name='RxQual')
+    FTP_DL_all_xl.to_excel(fr_xl_all, sheet_name='FTP_DL')
+    Capacity_DL_all_xl.to_excel(fr_xl_all, sheet_name='Capacity_DL')
+    Capacity_UL_all_xl.to_excel(fr_xl_all, sheet_name='Capacity_UL')
+    HTTP_Browser_all_xl.to_excel(fr_xl_all, sheet_name='HTTP_Browser')
 
-    Capacity_DL_all_smartfren.to_excel(fr_smartfren_all, sheet_name='Capacity_DL')
-    Capacity_UL_all_smartfren.to_excel(fr_smartfren_all, sheet_name='Capacity_UL')
-    FTP_DL_all_smartfren.to_excel(fr_smartfren_all, sheet_name='FTP_DL')
-    HTTP_Browser_all_smartfren.to_excel(fr_smartfren_all, sheet_name='HTTP_Browser')
-    RSCP_all_smartfren.to_excel(fr_smartfren_all, sheet_name='RSCP')
-    ECLO_all_smartfren.to_excel(fr_smartfren_all, sheet_name='ECLO')
     RSRP_all_smartfren.to_excel(fr_smartfren_all, sheet_name='RSRP')
     RSRQ_all_smartfren.to_excel(fr_smartfren_all, sheet_name='RSRQ')
+    RSCP_all_smartfren.to_excel(fr_smartfren_all, sheet_name='RSCP')
+    ECLO_all_smartfren.to_excel(fr_smartfren_all, sheet_name='ECLO')
     RxLvl_all_smartfren.to_excel(fr_smartfren_all, sheet_name='RxLvl')
     RxQual_all_smartfren.to_excel(fr_smartfren_all, sheet_name='RxQual')
+    FTP_DL_all_smartfren.to_excel(fr_smartfren_all, sheet_name='FTP_DL')
+    Capacity_DL_all_smartfren.to_excel(fr_smartfren_all, sheet_name='Capacity_DL')
+    Capacity_UL_all_smartfren.to_excel(fr_smartfren_all, sheet_name='Capacity_UL')
+    HTTP_Browser_all_smartfren.to_excel(fr_smartfren_all, sheet_name='HTTP_Browser')
 
-    Capacity_DL_all_indosat.to_excel(fr_indosat_all, sheet_name='Capacity_DL')
-    Capacity_UL_all_indosat.to_excel(fr_indosat_all, sheet_name='Capacity_UL')
-    FTP_DL_all_indosat.to_excel(fr_indosat_all, sheet_name='FTP_DL')
-    HTTP_Browser_all_indosat.to_excel(fr_indosat_all, sheet_name='HTTP_Browser')
-    RSCP_all_indosat.to_excel(fr_indosat_all, sheet_name='RSCP')
-    ECLO_all_indosat.to_excel(fr_indosat_all, sheet_name='ECLO')
     RSRP_all_indosat.to_excel(fr_indosat_all, sheet_name='RSRP')
     RSRQ_all_indosat.to_excel(fr_indosat_all, sheet_name='RSRQ')
+    RSCP_all_indosat.to_excel(fr_indosat_all, sheet_name='RSCP')
+    ECLO_all_indosat.to_excel(fr_indosat_all, sheet_name='ECLO')
     RxLvl_all_indosat.to_excel(fr_indosat_all, sheet_name='RxLvl')
     RxQual_all_indosat.to_excel(fr_indosat_all, sheet_name='RxQual')
+    FTP_DL_all_indosat.to_excel(fr_indosat_all, sheet_name='FTP_DL')
+    Capacity_DL_all_indosat.to_excel(fr_indosat_all, sheet_name='Capacity_DL')
+    Capacity_UL_all_indosat.to_excel(fr_indosat_all, sheet_name='Capacity_UL')
+    HTTP_Browser_all_indosat.to_excel(fr_indosat_all, sheet_name='HTTP_Browser')
 
-    Capacity_DL_all_tri.to_excel(fr_tri_all, sheet_name='Capacity_DL')
-    Capacity_UL_all_tri.to_excel(fr_tri_all, sheet_name='Capacity_UL')
-    FTP_DL_all_tri.to_excel(fr_tri_all, sheet_name='FTP_DL')
-    HTTP_Browser_all_tri.to_excel(fr_tri_all, sheet_name='HTTP_Browser')
-    RSCP_all_tri.to_excel(fr_tri_all, sheet_name='RSCP')
-    ECLO_all_tri.to_excel(fr_tri_all, sheet_name='ECLO')
     RSRP_all_tri.to_excel(fr_tri_all, sheet_name='RSRP')
     RSRQ_all_tri.to_excel(fr_tri_all, sheet_name='RSRQ')
+    RSCP_all_tri.to_excel(fr_tri_all, sheet_name='RSCP')
+    ECLO_all_tri.to_excel(fr_tri_all, sheet_name='ECLO')
     RxLvl_all_tri.to_excel(fr_tri_all, sheet_name='RxLvl')
     RxQual_all_tri.to_excel(fr_tri_all, sheet_name='RxQual')
+    FTP_DL_all_tri.to_excel(fr_tri_all, sheet_name='FTP_DL')
+    Capacity_DL_all_tri.to_excel(fr_tri_all, sheet_name='Capacity_DL')
+    Capacity_UL_all_tri.to_excel(fr_tri_all, sheet_name='Capacity_UL')
+    HTTP_Browser_all_tri.to_excel(fr_tri_all, sheet_name='HTTP_Browser')
 
     # Close the Pandas Excel writer and output the Excel file.
     fr_telkomsel_bad.save()

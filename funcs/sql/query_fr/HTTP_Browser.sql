@@ -1,4 +1,4 @@
-select 
+select
 f.CollectionName as SOURCE, 
 n.CId as CID	,
 n.LAC	,
@@ -38,8 +38,7 @@ p.latitude	  BTS3LatDiff,
 r.throughput
  
 
-from    NetworkInfo n    
-join  "Position" p on n.MsgTime =p.MsgTime and n.FileId =p.FileId
-join  FileList f on n.FileId =f.FileId 
-join  ResultsHTTPBrowserTest r on p.SessionId=r.SessionId and 		r.MsgTime=p.MsgTime	 
-; 
+from   ResultsHTTPBrowserTest r
+left  join  NetworkInfo n    on  r.NetworkId=n.NetworkId 
+left  join   "Position" p  on r.PosId =p.PosId 
+left  join   FileList f on n.FileId =f.FileId  

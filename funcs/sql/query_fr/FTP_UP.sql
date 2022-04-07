@@ -1,21 +1,21 @@
-select 
+select
 f.CollectionName as SOURCE, 
 n.CId as CID	,
 n.LAC	,
 n.MCC,
 n.MNC	,
-n.Operator	 ,
+n.HomeOperator 	Operator ,
 n.CGI	,
 n.technology	Technology,
 p.longitude  Lon,
 p.latitude	Lat,
-l.SessionId,
-l.TestId,
-l.NetworkId,
+p.SessionId,
+p.TestId,
+n.NetworkId,
 f.Zone SystemName,
 f.ASideDevice ADevice,
-l.MsgTime Time,
-l.PosId,
+p.MsgTime Time,
+p.PosId,
 n.FileId, 
 '' as BTSLon,
 '' as BTSLat,
@@ -34,13 +34,14 @@ p.latitude	  BTS3LatDiff,
 '' SessionIdLP	,
 '' TestIdLP ,
 '' PosIdLP	,
-'' NetworkIdLP, 
-Str(Round(l.RSRP,1),10,1)as RSRP, 
-l.NumMeasuredCells,
-Convert(varchar,l.EARFCN) + ' ' + Convert(varchar,l.PhyCellId) as ChPSC
+'' NetworkIdLP ,
+w.throughput as Throughput, 
+case when w.errorCode=0 then 'Successful' else 'Connecting failed' end  as errorcode	,
+w.operation  
 
-
-from LTEMeasurementReport l 
- join  NetworkInfo n on  l.NetworkId=n.NetworkId  and l.MsgTime =n.MsgTime   
-join  "Position" p on l.MsgTime =p.MsgTime and l.SessionId =p.SessionId and l.PosId =p.PosId
-join  FileList f on n.FileId =f.FileId ;
+from   ResultsFTPtest w
+left join NetworkInfo n on  w.NetworkId=n.NetworkId 
+left join  "Position" p on w.PosId =p.PosId   
+left join  FileList f on n.FileId =f.FileId 
+where w.operation='PUT';
+ 

@@ -1,4 +1,4 @@
-select 
+select
 f.CollectionName as SOURCE, 
 n.CId as CID	,
 n.LAC	,
@@ -17,6 +17,7 @@ f.ASideDevice ADevice,
 p.MsgTime Time,
 p.PosId,
 n.FileId, 
+
 '' as BTSLon,
 '' as BTSLat,
 p.longitude  BTSLonDiff	, 
@@ -35,16 +36,19 @@ p.latitude	  BTS3LatDiff,
 '' TestIdLP ,
 '' PosIdLP	,
 '' NetworkIdLP ,
-r.ErrorCode	, 
-Case When ResultsCapacityTestParameters.Direction='GET' then 'downlink' else 'uplink' end as Direction,
-r.ThroughputGet as DLThrpt,		
-ResultsCapacityTestParameters.URICount  ,
-Case When r.ErrorCode = 0 Then 'Success' Else 'Failed' End as Status 
+w.ErrorCode	, 
+Case When t.Direction='GET' then 'downlink' else 'uplink' end as Direction,
+w.ThroughputGet as DLThrpt,		
+t.URICount  ,
+Case When w.ErrorCode = 0 Then 'Success' Else 'Failed' End as Status 
  
 
-from    NetworkInfo n    
-join  "Position" p on n.MsgTime =p.MsgTime and n.FileId =p.FileId
-join  FileList f on n.FileId =f.FileId 
-join  ResultsCapacityTest r on p.SessionId=r.SessionId and 		r.MsgTime=p.MsgTime	
-join ResultsCapacityTestParameters  ResultsCapacityTestParameters on r.TestId=ResultsCapacityTestParameters.TestId 
-where ResultsCapacityTestParameters.Direction ='GET';
+
+from    ResultsCapacityTest w  
+left  join  NetworkInfo n    on  w.NetworkId=n.NetworkId 
+left  join   "Position" p  on w.PosId =p.PosId 
+left  join   FileList f on n.FileId =f.FileId 
+left  join  ResultsCapacityTestParameters  t on w.TestId=t.TestId 
+where t.Direction ='GET';
+ 
+; 

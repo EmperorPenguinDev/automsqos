@@ -1,4 +1,4 @@
-select 
+select
 f.CollectionName as SOURCE, 
 n.CId as CID	,
 n.LAC	,
@@ -41,9 +41,9 @@ w.host,
 w.operation,
 SUBSTRING(w.fileName, 1, 5 ) as filename 
 
-from    NetworkInfo n    
-join  "Position" p on n.MsgTime =p.MsgTime and n.FileId =p.FileId
-join  FileList f on n.FileId =f.FileId 
-join  ResultsFTPtest  w on  n.NetworkId=w.NetworkId 
+from   ResultsFTPtest w
+left join NetworkInfo n on  w.NetworkId=n.NetworkId 
+left join  "Position" p on w.PosId =p.PosId   
+left join  FileList f on n.FileId =f.FileId   
 where w.operation='GET' and SUBSTRING(w.fileName, 1, 5 ) like '%MB'
 ; 

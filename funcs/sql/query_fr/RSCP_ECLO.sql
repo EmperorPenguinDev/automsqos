@@ -1,4 +1,4 @@
-select 
+select
 f.CollectionName as SOURCE, 
 n.CId as CID	,
 n.LAC	,
@@ -40,9 +40,9 @@ Str(Round(w.AggrEcIo,1),10,1)as AvgEcIo,
 w.numCells,
 Convert(varchar,w.FreqDL) + ' ' + Convert(varchar,w.PrimScCode) as ChPSC
 
-from    NetworkInfo n    
-join  "Position" p on n.MsgTime =p.MsgTime and n.FileId =p.FileId
-join  FileList f on n.FileId =f.FileId 
-join  WCDMAActiveSet  w on  n.NetworkId=w.NetworkId and p.SessionId=w.SessionId	and  p.MsgTime=w.MsgTime 
- 
+from   WCDMAActiveSet w 
+left join NetworkInfo n on  w.NetworkId=n.NetworkId 
+left join  "Position" p on w.PosId =p.PosId   
+left join  FileList f on n.FileId =f.FileId 
+  
 ; 

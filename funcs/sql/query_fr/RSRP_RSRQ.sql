@@ -1,5 +1,4 @@
-select 
-f.CollectionName as SOURCE, 
+select  f.CollectionName as SOURCE, 
 n.CId as CID	,
 n.LAC	,
 n.MCC,
@@ -14,7 +13,8 @@ l.TestId,
 l.NetworkId,
 f.Zone SystemName,
 f.ASideDevice ADevice,
-l.MsgTime Time,
+l.MsgTime MsgTime_lte,
+n.MsgTime MsgTime,
 l.PosId,
 n.FileId, 
 '' as BTSLon,
@@ -35,11 +35,15 @@ p.latitude	  BTS3LatDiff,
 '' TestIdLP ,
 '' PosIdLP	,
 '' NetworkIdLP, 
+ l.NumMeasuredCells,
+Str(Round(l.RSRP,1),10,1)as RSRP,  
+Convert(varchar,l.EARFCN) + ' ' + Convert(varchar,l.PhyCellId) as ChPSC,
  Str(Round(l.RSRQ,1),10,1)as RSRQ, 
-		l.NumMeasuredCells,
-		Convert(varchar,l.EARFCN) + ' ' + Convert(varchar,l.PhyCellId) as ChnPCI
+ Convert(varchar,l.EARFCN) + ' ' + Convert(varchar,l.PhyCellId) as ChnPCI
+
+
 		 
 from LTEMeasurementReport l 
- join  NetworkInfo n on  l.NetworkId=n.NetworkId  and l.MsgTime =n.MsgTime   
-join  "Position" p on l.MsgTime =p.MsgTime and l.SessionId =p.SessionId and l.PosId =p.PosId
-join  FileList f on n.FileId =f.FileId  ; 
+ left join   NetworkInfo n on  l.NetworkId=n.NetworkId  
+ left join   "Position" p   on l.PosId =p.PosId  
+ left join  FileList f on n.FileId =f.FileId

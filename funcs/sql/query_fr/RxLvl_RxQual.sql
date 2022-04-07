@@ -1,4 +1,4 @@
-select 
+select
 f.CollectionName as SOURCE, 
 n.CId as CID	,
 n.LAC	,
@@ -38,8 +38,8 @@ p.latitude	  BTS3LatDiff,
 Str(Round(w.RxLev,1),10,1)as RxLev,
 Str(Round(w.RxQual,1),10,1)as RxQual,  
 Convert(varchar,w.BCCH) as ChNr
-from    NetworkInfo n    
-join  "Position" p on n.MsgTime =p.MsgTime and n.FileId =p.FileId
-join  FileList f on n.FileId =f.FileId 
-join  FactGSMRadio  w on  n.NetworkId=w.NetworkId and p.SessionId=w.SessionId	and p.MsgTime=w.FullDate 
-; 
+
+from FactGSMRadio w 
+left join     NetworkInfo n    on  n.NetworkId=w.NetworkId  
+ left join   "Position" p   on w.PosId =p.PosId 
+left join   FileList f on n.FileId =f.FileId  
