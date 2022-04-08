@@ -11,7 +11,8 @@ FileList.CollectionName,
 FileList.TestDescription, 
 FileList.Zone, 
 Round(Convert(float, vResultsCapacityTestPut.Throughput*0.008), 3), 
-vResultsCapacityTestPut.Host, 
+vResultsCapacityTestPut.Host,
+ vResultsCapacityTestPut.Status ,
 vResultsCapacityTestPut.URICount 
 FROM [vSessionsTechnologyAll] [Sessions]
 JOIN FileList ON FileList.FileId = [Sessions].FileId
@@ -35,7 +36,8 @@ FileList.CollectionName,
 FileList.TestDescription, 
 FileList.Zone, 
 Round(Convert(float, vResultsCapacityTestGet.Throughput*0.008), 3), 
-vResultsCapacityTestGet.Host, 
+vResultsCapacityTestGet.Host,
+  vResultsCapacityTestGet.Status ,
 vResultsCapacityTestGet.URICount 
 FROM [vSessionsTechnologyAll] [Sessions]
 JOIN FileList ON FileList.FileId = [Sessions].FileId
@@ -61,7 +63,8 @@ FileList.CollectionName,
 FileList.TestDescription, 
 FileList.Zone, 
 Round(Convert(float, vResultsCapacityTestGet.Throughput*0.008), 3), 
-vResultsCapacityTestGet.Host, 
+vResultsCapacityTestGet.Host,
+  vResultsCapacityTestGet.Status ,
 vResultsCapacityTestGet.URICount 
 FROM [vSessionsTechnologyAll] [Sessions]
 JOIN FileList ON FileList.FileId = [Sessions].FileId

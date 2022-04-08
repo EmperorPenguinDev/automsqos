@@ -11,7 +11,7 @@ if __name__ == '__main__':
     # Connection to the database
     driver = "{SQL Server}"
     server = "10.31.0.23,1433"
-    database = "ZONA11_JAKARTA_PUSAT_DT"
+    database = "ZONA17_KAB_PATI_DT"
     username = "ms_reporting"
     password = "Kominfo@2021"
 

@@ -12,7 +12,8 @@ Convert(varchar, TestInfo.StartTime, 108) as 'msgTime',
 FileList.CollectionName, 
 FileList.TestDescription, 
 FileList.Zone, 
-Round(Convert(float, vResultsKPI.Duration*0.001), 3) as result 
+Round(Convert(float, vResultsKPI.Duration*0.001), 3) as Duration,
+  vResultsKPI.KPIStatus
 from [vSessionsTechnologyAll] [Sessions]
 JOIN FileList ON FileList.FileId = [Sessions].FileId
 JOIN NetworkInfo ON Networkinfo.NetworkId = [Sessions].NetworkId
@@ -34,7 +35,8 @@ Convert(varchar, TestInfo.StartTime, 108) as 'msgTime',
 FileList.CollectionName, 
 FileList.TestDescription, 
 FileList.Zone, 
-Round(Convert(float, vResultsKPI.Duration*0.001), 3)
+Round(Convert(float, vResultsKPI.Duration*0.001), 3) as Duration,
+  vResultsKPI.KPIStatus
 FROM [vSessionsTechnologyAll] [Sessions]
 JOIN FileList ON FileList.FileId = [Sessions].FileId
 JOIN NetworkInfo ON Networkinfo.NetworkId = [Sessions].NetworkId

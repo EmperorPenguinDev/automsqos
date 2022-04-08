@@ -11,7 +11,8 @@ FileList.CollectionName,
 FileList.TestDescription, 
 FileList.Zone, 
 Round(Convert(float, vResultsHTTPBrowserTest.Throughput*8*0.001), 3) Throughput, 
-vResultsHTTPBrowserTest.URL, 
+vResultsHTTPBrowserTest.URL,
+  vResultsHTTPBrowserTest.Status,
 vResultsHTTPBrowserTest.APN
 FROM [vSessionsTechnologyAll] [Sessions]
 JOIN FileList ON FileList.FileId = [Sessions].FileId

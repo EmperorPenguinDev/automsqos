@@ -13,7 +13,8 @@ FileList.TestDescription,
 FileList.Zone, 
 Round(Convert(float, vResultsFTPTestGetFD.Throughput*8*0.001), 3) Throughput, 
 'GET' as ket,
-vResultsFTPTestGetFD.Host, 
+vResultsFTPTestGetFD.Host,
+  vResultsFTPTestGetFD.Status,
 vResultsFTPTestGetFD.APN 
 FROM [vSessionsTechnologyAll] [Sessions]
 JOIN FileList ON FileList.FileId = [Sessions].FileId
@@ -39,7 +40,8 @@ FileList.TestDescription,
 FileList.Zone, 
 Round(Convert(float, vResultsFTPTestPutFD.Throughput*8*0.001), 3) Throughput, 
 'PUT' as ket,
-vResultsFTPTestPutFD.Host, 
+vResultsFTPTestPutFD.Host,
+  vResultsFTPTestPutFD.Status,
 vResultsFTPTestPutFD.APN 
 FROM [vSessionsTechnologyAll] [Sessions]
 JOIN FileList ON FileList.FileId = [Sessions].FileId
@@ -63,7 +65,8 @@ FileList.TestDescription,
 FileList.Zone, 
 Round(Convert(float, vResultsFTPTestGet.Throughput*8*0.001), 3) Throughput, 
 'GET' as ket,
-vResultsFTPTestGet.Host, 
+vResultsFTPTestGet.Host,
+        vResultsFTPTestGet.Status,
 vResultsFTPTestGet.APN 
 from [vSessionsTechnologyAll] [Sessions]
 JOIN FileList ON FileList.FileId = [Sessions].FileId
@@ -88,7 +91,8 @@ FileList.TestDescription,
 FileList.Zone, 
 Round(Convert(float, vResultsFTPTestPut.Throughput*8*0.001), 3) Throughput, 
 'PUT' as ket,
-vResultsFTPTestPut.Host, 
+vResultsFTPTestPut.Host,
+vResultsFTPTestPut.Status,
 vResultsFTPTestPut.APN
 from [vSessionsTechnologyAll] [Sessions]
 JOIN FileList ON FileList.FileId = [Sessions].FileId
