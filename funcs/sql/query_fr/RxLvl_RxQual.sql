@@ -35,8 +35,10 @@ p.latitude	  BTS3LatDiff,
 '' TestIdLP ,
 '' PosIdLP	,
 '' NetworkIdLP ,
-Str(Round(w.RxLev,1),10,1)as RxLev,
-Str(Round(w.RxQual,1),10,1)as RxQual,  
+--Str(Round(w.RxLev,1),10,1) ::float8 as RxLev,
+convert(float,w.RxLev) as RxLev,
+--Str(Round(w.RxQual,1),10,1) ::float8 as RxQual,
+convert(float,w.RxQual) as RxQual,
 Convert(varchar,w.BCCH) as ChNr
 
 from FactGSMRadio w 

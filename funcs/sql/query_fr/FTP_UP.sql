@@ -35,7 +35,7 @@ p.latitude	  BTS3LatDiff,
 '' TestIdLP ,
 '' PosIdLP	,
 '' NetworkIdLP ,
-w.throughput as Throughput, 
+convert(float,w.throughput) as Throughput,
 case when w.errorCode=0 then 'Successful' else 'Connecting failed' end  as errorcode	,
 w.operation  
 

@@ -37,7 +37,7 @@ p.latitude	  BTS3LatDiff,
 '' NetworkIdLP ,
 w.ErrorCode	, 
 Case When t.Direction='PUT' then 'uplink' else 'downlink' end as Direction,
-w.ThroughputPut as ULLThrpt,	
+convert(float,w.ThroughputPut) as ULThrpt,
 t.URICount  ,
 Case When w.ErrorCode = 0 Then 'Success' Else 'Failed' End as Status 
 

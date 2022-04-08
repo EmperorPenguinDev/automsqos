@@ -35,8 +35,10 @@ p.latitude	  BTS3LatDiff,
 '' TestIdLP ,
 '' PosIdLP	,
 '' NetworkIdLP ,
-Str(Round(w.AggrRSCP,1),10,1)as AvgRSCP, 
-Str(Round(w.AggrEcIo,1),10,1)as AvgEcIo,
+--Str(Round(w.AggrRSCP,1),10,1) ::float8 as AvgRSCP,
+convert(float,w.AggrRSCP) as AvgRSCP,
+--Str(Round(w.AggrEcIo,1),10,1) ::float8 as AvgEcIo,
+convert(float,w.AggrEcIo) as AvgEcIo,
 w.numCells,
 Convert(varchar,w.FreqDL) + ' ' + Convert(varchar,w.PrimScCode) as ChPSC
 

@@ -36,10 +36,12 @@ p.latitude	  BTS3LatDiff,
 '' PosIdLP	,
 '' NetworkIdLP, 
  l.NumMeasuredCells,
-Str(Round(l.RSRP,1),10,1)as RSRP,  
+--Str(Round(l.RSRP,1),10,1) ::float8 as RSRP,
+convert(float,l.RSRP) as RSRP,
 Convert(varchar,l.EARFCN) + ' ' + Convert(varchar,l.PhyCellId) as ChPSC,
- Str(Round(l.RSRQ,1),10,1)as RSRQ, 
- Convert(varchar,l.EARFCN) + ' ' + Convert(varchar,l.PhyCellId) as ChnPCI
+--Str(Round(l.RSRQ,1),10,1) ::float8 as RSRQ,
+convert(float,l.RSRQ) as RSRQ,
+Convert(varchar,l.EARFCN) + ' ' + Convert(varchar,l.PhyCellId) as ChnPCI
 
 
 		 

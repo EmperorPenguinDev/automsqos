@@ -6,6 +6,8 @@ from funcs.parsing import f_groupby
 from funcs.read_sql import f_read_sql
 
 if __name__ == '__main__':
+    pd.set_option('display.max_columns', 500)
+    pd.set_option('display.width', 1000)
     # Connection to the database
     driver = "{SQL Server}"
     server = "10.31.0.23,1433"
@@ -41,8 +43,8 @@ if __name__ == '__main__':
 
         variable_name_all = head_tail[1][:-4]+"_all"
         globals()[variable_name_all] = f_read_sql(query, driver, server, database, username, password)
-        print(variable_name_all)
-        print(globals()[variable_name_all].dtypes)
+        # print(variable_name_all)
+        # print(globals()[variable_name_all].dtypes)
 
     # If dataframe is empty pass, else parsing
     if RSRP_RSRQ_all.empty:
@@ -69,8 +71,8 @@ if __name__ == '__main__':
     if FTP_DL_all.empty:
         pass
     else:
-        FTP_DL_all = f_parsing(FTP_DL_all, 'throughput', 'Kurang', 1000, "<1000", "yes")
-        FTP_DL_bad = f_parsing(FTP_DL_all, 'throughput', 'Kurang', 1000, "<1000", "no")
+        FTP_DL_all = f_parsing(FTP_DL_all, 'Throughput', 'Kurang', 1000, "<1000", "yes")
+        FTP_DL_bad = f_parsing(FTP_DL_all, 'Throughput', 'Kurang', 1000, "<1000", "no")
     if Capacity_DL_all.empty:
         pass
     else:
@@ -84,8 +86,8 @@ if __name__ == '__main__':
     if HTTP_Browser_all.empty:
         pass
     else:
-        HTTP_Browser_all = f_parsing(HTTP_Browser_all, 'throughput', 'Kurang', 1000, "<1000", "yes")
-        HTTP_Browser_bad = f_parsing(HTTP_Browser_all, 'throughput', 'Kurang', 1000, "<1000", "no")
+        HTTP_Browser_all = f_parsing(HTTP_Browser_all, 'Throughput', 'Kurang', 1000, "<1000", "yes")
+        HTTP_Browser_bad = f_parsing(HTTP_Browser_all, 'Throughput', 'Kurang', 1000, "<1000", "no")
 
     # Groupby bad
     try:

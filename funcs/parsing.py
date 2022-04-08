@@ -5,11 +5,13 @@ from pandas.api.types import is_string_dtype
 from pandas.api.types import is_numeric_dtype
 
 def f_parsing(dfs, cols, cat, ranges, rangess, show):
-    dfs[cols] = dfs[cols].astype('float')
+    # dfs[cols] = dfs[cols].astype('float')
+    dfs[cols] = dfs[cols].fillna(0)
+
     if show == "yes":
         b = []
         for i, d in dfs.iterrows():
-            if float(d[cols]) < ranges:
+            if d[cols] < ranges:
                 d['Cat'] = cat
                 d['Range'] = rangess
                 b.append(d)

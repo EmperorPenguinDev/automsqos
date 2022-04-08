@@ -35,7 +35,7 @@ p.latitude	  BTS3LatDiff,
 '' TestIdLP ,
 '' PosIdLP	,
 '' NetworkIdLP ,
-r.throughput
+convert(float,r.throughput) as Throughput
  
 
 from   ResultsHTTPBrowserTest r
