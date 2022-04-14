@@ -1,10 +1,10 @@
 with #Sessions( FileId,SessionId, TestId) as (
-select 
+select
 
 Sessions.FileId,
 Sessions.SessionId,
 Testinfo.TestId
-from 
+from
 Sessions Join Testinfo On(Sessions.SessionId=Testinfo.SessionId)
 where Sessions.Valid=1 And
 TestInfo.Valid=1 And
@@ -17,40 +17,41 @@ Testinfo.TestId)
 Select
 MsgEthereal.Sessionid,
 MsgEthereal.Testid,
-MsgEthereal.dst as 'VideoServer' 
+MsgEthereal.dst as 'VideoServer'
 From
-#Sessions Join MsgEthereal On(#Sessions.TestId=MsgEthereal.TestId)                                                 
-where-- msg like 'GET /videoplayback%' and                       
-      MsgId = (Select Max(MsgId) from MsgEthereal m2             
-               where --m2.msg like 'GET /videoplayback%' and     
+#Sessions Join MsgEthereal On(#Sessions.TestId=MsgEthereal.TestId)
+where-- msg like 'GET /videoplayback%' and
+      MsgId = (Select Max(MsgId) from MsgEthereal m2
+               where --m2.msg like 'GET /videoplayback%' and
                m2.TestId = MsgEthereal.TestId)
 Group by
 MsgEthereal.Sessionid,
 MsgEthereal.Testid,
 MsgEthereal.dst
- 
+
 )
 Select
-FileList.ASideFileName, 
-FileList.TestDescription, 
+FileList.ASideFileName,
+FileList.TestDescription,
 FileList.CollectionName,
 FileList.CampaignName,
 FileList.UserName,
-FileList.CallingModule, 
-FileList.ASideDevice, 
-FileList.ASideNumber, 
+FileList.CallingModule,
+FileList.ASideDevice,
+FileList.ASideNumber,
 FileList.ASideLocation,
 FileList.Region,
 DataSession.JobName,
 TestInfo.TestName,
-#Sessions.SessionId, 
+#Sessions.SessionId,
 TestInfo.TestId,
+TestInfo.StartTime as MsgDateTime,
 convert(varchar,TestInfo.StartTime,104) as 'Date',
 convert(varchar,TestInfo.StartTime,108) as 'Time',
 Testinfo.typeoftest as 'Test Type',
 Case When TestInfo.typeoftest like '%YouTube%' Then 'YouTube' Else 'MediaServer' end as 'Source',
-NetworkInfo.Cid, 
-NetworkInfo.LAC, 
+NetworkInfo.Cid,
+NetworkInfo.LAC,
 NetworkInfo.Operator,
 NetworkInfo.Technology,
 ResultsVideoStream.Player,
@@ -85,4 +86,3 @@ From
 		Left Join	ResultsVideoStreamTCPData On(Testinfo.TestId=ResultsVideoStreamTCPData.TestId)
 		Left Join	#MsgEtherealVideoServer On(Testinfo.TestId=#MsgEtherealVideoServer.TestId)
 
- 

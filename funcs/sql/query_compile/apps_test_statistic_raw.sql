@@ -46,6 +46,7 @@ SELECT
 	ni.HomeOperator,
 	ni.technology,
 	t.PrevTechnology,
+
 	EndTime = CONVERT(VARCHAR,COALESCE(aa.MsgTime,aaf.MsgTime,aam.MsgTime, sm.MsgTime),121),
 	App = atp.ServiceProvider,
 	ProfileName = atp.ServiceProfileName,
@@ -65,7 +66,9 @@ SELECT
 	aaf.Latency,
 	aaf.PacketLossPercent,
 	ni.CGI,
-	StartTime = DATEADD(MS,-1*COALESCE(aa.Duration,aaf.Duration,aam.Duration, sm.CoreDuration),COALESCE(aa.MsgTime,aaf.MsgTime,aam.MsgTime, sm.MsgTime))
+	StartTime = DATEADD(MS,-1*COALESCE(aa.Duration,aaf.Duration,aam.Duration, sm.CoreDuration),COALESCE(aa.MsgTime,aaf.MsgTime,aam.MsgTime, sm.MsgTime)),
+	DATEADD(MS,-1*COALESCE(aa.Duration,aaf.Duration,aam.Duration, sm.CoreDuration),COALESCE(aa.MsgTime,aaf.MsgTime,aam.MsgTime, sm.MsgTime)) as MsgDate
+
 FROM #Sessions s
 INNER JOIN FileList fl ON fl.FileId = s.FileId
 INNER JOIN TestInfo ti ON s.SessionId = ti.SessionId AND ti.valid = 1
